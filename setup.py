@@ -14,8 +14,8 @@ with open(os.path.join(here, 'CHANGES')) as f:
     long_descr += '\n\n' + f.read()
 
 setup(
-    name='django-leaflet',
-    version='0.27.1',
+    name='django-leaflet-noise-enabled',
+    version='0.27.1.noise',
     author='Mathieu Leplatre',
     author_email='mathieu.leplatre@makina-corpus.com',
     url='https://github.com/makinacorpus/django-leaflet',
