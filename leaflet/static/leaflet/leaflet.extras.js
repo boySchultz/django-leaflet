@@ -10,7 +10,7 @@ L.Control.ResetView = L.Control.extend({
 
     initialize: function (bounds, options) {
         // Accept function as argument to bounds
-        this.getBounds = typeof(bounds) == 'function' ? bounds :
+        this.getBounds = typeof (bounds) == 'function' ? bounds :
             function () {
                 return bounds;
             };
@@ -33,7 +33,7 @@ L.Control.ResetView = L.Control.extend({
         L.DomEvent.addListener(link, 'click', L.DomEvent.stopPropagation)
             .addListener(link, 'click', L.DomEvent.preventDefault)
             .addListener(link, 'click', L.Util.bind(function () {
-                map.fitBounds(this.getBounds());
+                map.flyTo(new L.LatLng(54.32, 10.13), 12);
             }, this));
         return container;
     }
@@ -172,7 +172,10 @@ L.Map.DjangoMap = L.Map.extend({
                 var scale_opt = this.options.djoptions.scale;
                 var show_imperial = /both|imperial/.test(scale_opt);
                 var show_metric = /both|metric/.test(scale_opt);
-                new L.Control.Scale({imperial: show_imperial, metric: show_metric}).addTo(this);
+                new L.Control.Scale({
+                    imperial: show_imperial,
+                    metric: show_metric
+                }).addTo(this);
             }, this);
         }
 
@@ -221,7 +224,7 @@ L.Map.djangoMap = function (id, options) {
          * Deprecate django-leaflet < 0.7 default callback
          */
         var defaultcb = window[id + 'Init'];
-        if (typeof(defaultcb) == 'function') {
+        if (typeof (defaultcb) == 'function') {
             options.callback = defaultcb;
             if (console) console.warn('DEPRECATED: Use of default callback ' + defaultcb.name + '() is deprecated (see documentation).');
         }
@@ -235,7 +238,7 @@ L.Map.djangoMap = function (id, options) {
     /*
      * Run callback if specified
      */
-    if (typeof(options.callback) == 'function') {
+    if (typeof (options.callback) == 'function') {
         options.callback(map, options);
     }
 
@@ -246,8 +249,7 @@ L.Map.djangoMap = function (id, options) {
         if (typeof window.CustomEvent == 'function') {
             var evt = new CustomEvent(type, {detail: data});
             target.dispatchEvent(evt);
-        }
-        else if (window.jQuery) {
+        } else if (window.jQuery) {
             var evt = jQuery.Event(type);
             evt.detail = data;
             jQuery(target).trigger(evt);
